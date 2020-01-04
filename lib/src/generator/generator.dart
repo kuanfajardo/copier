@@ -80,6 +80,10 @@ class ForeignCopyableLibraryGenerator extends Generator {
       }
     });
 
+    if (e == null) {
+      return null;
+    }
+
     DartObject metaGenerator = e.computeConstantValue();
     List<DartObject> copyableMetas = metaGenerator
         .getField('copyables')
@@ -141,6 +145,10 @@ class ForeignCopierLibraryGenerator extends Generator {
         return;
       }
     });
+
+    if (e == null) {
+      return null;
+    }
 
     DartObject metaGenerator = e.computeConstantValue();
     List<DartObject> copierMetas =
@@ -223,7 +231,7 @@ Class generateCopierClass({
       $baseClassName new$baseClassName = $baseClassName(
         ${fields.map((Parameter p) => '${p.name} : ${p.name} ?? master?.${p.name} ?? defaultMaster.${p.name}').toList().join(', ')}
       );
-      
+
       return resolve ? new$baseClassName : $newClassName(new$baseClassName);
     '''));
 
@@ -372,7 +380,7 @@ Class generateCopyableClass({
     ..body = Code('''
       master = master ?? this.master;
       $baseClassName new$baseClassName = $baseClassName($forwardParameters);
-      
+
       return $newClassName.from(new$baseClassName);
     '''));
 
